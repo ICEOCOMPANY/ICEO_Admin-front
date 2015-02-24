@@ -1,0 +1,213 @@
+
+<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+
+    <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
+    <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
+    <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+    <div class="sidebar-menu toggle-others fixed">
+
+        <div class="sidebar-menu-inner">
+
+            <header class="logo-env">
+
+                <!-- logo -->
+                <div class="logo">
+                    <a href="dashboard-1.html" class="logo-expanded">
+                        <img src="assets/images/logo@2x.png" width="80" alt="" />
+                    </a>
+
+                    <a href="dashboard-1.html" class="logo-collapsed">
+                        <img src="assets/images/logo-collapsed@2x.png" width="40" alt="" />
+                    </a>
+                </div>
+
+                <!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+                <div class="mobile-menu-toggle visible-xs">
+                    <a href="#" data-toggle="user-info-menu">
+                        <i class="linecons-cog"></i>
+                    </a>
+
+                    <a href="#" data-toggle="mobile-menu">
+                        <i class="fa-bars"></i>
+                    </a>
+                </div>
+
+            </header>
+
+
+            <!-- Sidebar User Info Bar - Added in 1.3 -->
+            <section class="sidebar-user-info" >
+                <div class="sidebar-user-info-inner">
+                    <a href="extra-profile.html" class="user-profile">
+                        <img src="assets/images/user-4.png" width="60" height="60" class="img-circle img-corona" alt="user-pic" />
+
+                        <span>
+                            <strong>John Smith</strong>
+                            Page admin
+                        </span>
+                    </a>
+                </div>
+            </section>
+
+
+            <ul id="main-menu" class="main-menu">
+                <!-- add class "multiple-expanded" to allow multiple submenus to open -->
+                <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
+                <li class="opened active">
+                    <a href="dashboard-1.html">
+                        <i class="linecons-cog"></i>
+                        <span class="title">Dashboard</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="dashboard-1.html">
+                                <span class="title">Dashboard 1</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="dashboard-2.html">
+                                <span class="title">Dashboard 2</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="layout-variants.html">
+                        <i class="linecons-desktop"></i>
+                        <span class="title">Layouts</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="layout-variants.html">
+                                <span class="title">Layout Variants &amp; API</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="layout-collapsed-sidebar.html">
+                                <span class="title">Collapsed Sidebar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="layout-static-sidebar.html">
+                                <span class="title">Static Sidebar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="layout-horizontal-menu.html">
+                                <span class="title">Horizontal Menu</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="main-content">
+
+        <nav class="navbar user-info-navbar"  role="navigation"><!-- User Info, Notifications and Menu Bar -->
+
+            <!-- Left links for user info navbar -->
+            <ul class="user-info-menu left-links list-inline list-unstyled">
+
+                <li class="hidden-sm hidden-xs">
+                    <a href="#" data-toggle="sidebar">
+                        <i class="fa-bars"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <!-- Right links for user info navbar -->
+            <ul class="user-info-menu right-links list-inline list-unstyled">
+                <li class="search-form"><!-- You can add "always-visible" to show make the search input visible -->
+
+                    <form name="userinfo_search_form" method="get" action="extra-search.html">
+                        <input type="text" name="s" class="form-control search-field" placeholder="Type to search..." />
+
+                        <button type="submit" class="btn btn-link">
+                            <i class="linecons-search"></i>
+                        </button>
+                    </form>
+
+                </li>
+
+                <li class="dropdown user-profile">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+                        <span>
+                            John Smith
+                            <i class="fa-angle-down"></i>
+                        </span>
+                    </a>
+
+                    <ul class="dropdown-menu user-profile-menu list-unstyled">
+                        <li>
+                            <a href="#edit-profile">
+                                <i class="fa-edit"></i>
+                                New Post
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#settings">
+                                <i class="fa-wrench"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#profile">
+                                <i class="fa-user"></i>
+                                Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#help">
+                                <i class="fa-info"></i>
+                                Help
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="extra-lockscreen.html">
+                                <i class="fa-lock"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+            </ul>
+
+        </nav>
+        
+        <ui-view></ui-view>
+
+        <!-- Main Footer -->
+        <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+        <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+        <!-- Or class "fixed" to  always fix the footer to the end of page -->
+        <footer class="main-footer sticky footer-type-1">
+
+            <div class="footer-inner">
+
+                <!-- Add your copyright text here -->
+                <div class="footer-text">
+                    &copy; 2014 
+                    <strong>Xenon</strong> 
+                    theme by <a href="http://laborator.co" target="_blank">Laborator</a> - <a href="http://themeforest.net/item/xenon-bootstrap-admin-theme/9059661?ref=Laborator" target="_blank">Purchase for only <strong>23$</strong></a>
+                </div>
+
+            </div>
+
+        </footer>
+    </div>
+    
+</div>
+
+<!-- Bottom Scripts -->
+<script src="assets/js/resizeable.js"></script>
+
+<!-- JavaScripts initializations and stuff -->
+<script src="assets/js/xenon-custom.js"></script>
