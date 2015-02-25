@@ -46,7 +46,7 @@
         <![endif]-->
     </head>
 
-    <body ng-app="ICEOapp" ng-controller="BaseCtrl">
+    <body ng-app="ICEOapp">
 
         <!--        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                     <div class="container">
@@ -76,6 +76,11 @@
 
         </div>
 
+        <!--Page Loading Overlay -->
+        <div class="page-loading-overlay">
+            <div class="loader-2"></div>
+        </div>
+
         <!-- External libs -->
         <script src="libs/js/bootstrap.min.js"></script>
         <script src="libs//js/angular/angular.js"></script>
@@ -89,7 +94,10 @@
 
         <!-- App -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers.js"></script>
+        <!-- Controllers -->
+        <script src="scripts/controllers/MainController.js"></script>
+        <script src="scripts/controllers/AdminController.js"></script>        
+        
         <script src="scripts/services.js"></script>
 
     </body>

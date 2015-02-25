@@ -1,5 +1,5 @@
-
-<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+<div class="page-container" ng-controller="BaseCtrl">
+    <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
 
     <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
     <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
@@ -42,8 +42,8 @@
                         <img src="assets/images/user-4.png" width="60" height="60" class="img-circle img-corona" alt="user-pic" />
 
                         <span>
-                            <strong>John Smith</strong>
-                            Page admin
+                            <strong>{{ admin.login }}</strong>
+                            Administrator
                         </span>
                     </a>
                 </div>
@@ -55,46 +55,24 @@
                 <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
                 <li class="opened active">
                     <a href="dashboard-1.html">
-                        <i class="linecons-cog"></i>
+                        <i class="fa-desktop"></i>
                         <span class="title">Dashboard</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="dashboard-1.html">
-                                <span class="title">Dashboard 1</span>
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a href="dashboard-2.html">
-                                <span class="title">Dashboard 2</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li>
                     <a href="layout-variants.html">
-                        <i class="linecons-desktop"></i>
-                        <span class="title">Layouts</span>
+                        <i class="fa-user"></i>
+                        <span class="title">Users</span>
                     </a>
                     <ul>
                         <li>
                             <a href="layout-variants.html">
-                                <span class="title">Layout Variants &amp; API</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="layout-collapsed-sidebar.html">
-                                <span class="title">Collapsed Sidebar</span>
+                                <span class="title">Manage users</span>
                             </a>
                         </li>
                         <li>
                             <a href="layout-static-sidebar.html">
-                                <span class="title">Static Sidebar</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="layout-horizontal-menu.html">
-                                <span class="title">Horizontal Menu</span>
+                                <span class="title">Groups</span>
                             </a>
                         </li>
                     </ul>
@@ -170,7 +148,7 @@
                             </a>
                         </li>
                         <li class="last">
-                            <a href="extra-lockscreen.html">
+                            <a ng-click="logout()">
                                 <i class="fa-lock"></i>
                                 Logout
                             </a>
@@ -195,8 +173,7 @@
                 <!-- Add your copyright text here -->
                 <div class="footer-text">
                     &copy; 2014 
-                    <strong>Xenon</strong> 
-                    theme by <a href="http://laborator.co" target="_blank">Laborator</a> - <a href="http://themeforest.net/item/xenon-bootstrap-admin-theme/9059661?ref=Laborator" target="_blank">Purchase for only <strong>23$</strong></a>
+                    <strong>Admin page</strong> 
                 </div>
 
             </div>
@@ -208,6 +185,7 @@
 
 <!-- Bottom Scripts -->
 <script src="assets/js/resizeable.js"></script>
+<script src="assets/js/TweenMax.min.js"></script>
 
 <!-- JavaScripts initializations and stuff -->
 <script src="assets/js/xenon-custom.js"></script>

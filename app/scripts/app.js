@@ -7,6 +7,7 @@ var app = angular.module('ICEOapp', [
     'angularFileUpload',
     'oc.lazyLoad'
 ]);
+
 app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', function ($urlRouterProvider, $httpProvider, $stateProvider, ASSETS) {
 
         //Router managing paths (input controller)
@@ -32,12 +33,22 @@ app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', f
          });*/
 
         $urlRouterProvider.otherwise("/admin/dashboard");
-
         $stateProvider.
                 state('login', {
                     url: '/login',
+                    controller: function ($location, $localStorage) {
+                        if ($localStorage.token !== undefined && $localStorage.token !== null) {
+                            $location.path("/admin/dashboard");
+                        }
+                    },
                     templateUrl: appHelper.templatePath('auth'),
                     resolve: {
+                        location: function ($location) {
+                            return $location;
+                        },
+                        localStorage: function($localStorage){
+                            return $localStorage;
+                        },
                         resources: function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 ASSETS.forms.jQueryValidate
@@ -48,26 +59,31 @@ app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', f
                 state('admin', {
                     abstract: true,
                     url: '/admin',
+                    controller: function ($location, $localStorage) {
+                        if ($localStorage.token === undefined || $localStorage.token === null) {
+                            $location.path("/login");
+                        }
+                    },
                     templateUrl: appHelper.templatePath('admin/app-body'),
-                    controller: function ($rootScope) {
-                        $rootScope.isLoginPage = false;
-                        $rootScope.isLightLoginPage = false;
-                        $rootScope.isLockscreenPage = false;
-                        $rootScope.isMainPage = true;
-                    }
-                }).state('admin.dashboard', {
-                    url: '/dashboard',
-                    templateUrl: appHelper.templatePath('admin/dashboard'),
-                    resolve: {
-                        resources: function ($ocLazyLoad) {
-                            return $ocLazyLoad.load([
-                                ASSETS.forms.jQueryValidate
-                            ]);
+                    reslove: {
+                        location: function ($location) {
+                            return $location;
+                        },
+                        localStorage: function($localStorage){
+                            return $localStorage;
                         }
                     }
-                });
-                
-                
+                }).state('admin.dashboard', {
+            url: '/dashboard',
+            templateUrl: appHelper.templatePath('admin/dashboard'),
+            resolve: {
+                resources: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        ASSETS.forms.jQueryValidate
+                    ]);
+                }
+            }
+        });
         $httpProvider.interceptors.push(['$rootScope', '$q', '$location', '$localStorage', function ($rootScope, $q, $location, $localStorage) {
                 return {
                     'request': function (config) {
@@ -92,7 +108,6 @@ app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', f
             }]);
     }
 ]);
-
 app.constant('ASSETS', {
     'core': {
         'bootstrap': appHelper.assetPath('js/bootstrap.min.js'), // Some plugins which do not support angular needs this

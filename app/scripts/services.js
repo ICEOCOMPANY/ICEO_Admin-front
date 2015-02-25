@@ -70,20 +70,3 @@ ICEOapp.factory('MainFactory', ['$http', '$localStorage', function ($http, $loca
         };
     }
     ]);
-
-ICEOapp.factory('TokenFactory', ['$http', '$localStorage', function ($http, $localStorage) {
-
-    var token;
-
-    return{
-        setToken: function(value){
-            token = value;
-            console.log("Ustawiam token na"+token)
-        },
-        getToken: function(){
-            console.log("Zwracam token na"+token)
-            return token;
-        }
-    }
-
-}]);
