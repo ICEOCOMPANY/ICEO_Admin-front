@@ -15,6 +15,7 @@
                 // Vars (paths without trailing slash)
                 templatesDir: 'partials',
                 assetsDir: 'assets',
+                servicesDir: 'scripts/services',
                 // Methods
                 templatePath: function (view_name)
                 {
@@ -23,6 +24,10 @@
                 assetPath: function (file_path)
                 {
                     return this.assetsDir + '/' + file_path;
+                },
+                servicePath: function (file_path)
+                {
+                    return this.servicesDir + "/" + file_path;
                 }
             };
         </script>
@@ -95,10 +100,10 @@
         <!-- App -->
         <script src="scripts/app.js"></script>
         <!-- Controllers -->
-        <script src="scripts/controllers/MainController.js"></script>
+        <script src="scripts/controllers/AuthController.js"></script>
         <script src="scripts/controllers/AdminController.js"></script>        
-        
-        <script src="scripts/services.js"></script>
 
+        <script src="scripts/services/MainService.js"></script>
+        <script src="scripts/services/UsersService.js"></script>
     </body>
 </html>

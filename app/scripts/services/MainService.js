@@ -5,10 +5,7 @@ var ICEOapp = angular.module('ICEOapp');
 /**
  * Service to handle basic functions
  */
-ICEOapp.factory('MainFactory', ['$http', '$localStorage', function ($http, $localStorage) {
-
-        //API domain url - here you should define a domain of your REST API!
-        var baseUrl = "http://localhost/Cloud";
+ICEOapp.factory('MainFactory', ['$http', '$localStorage', 'CONFIG', function ($http, $localStorage, CONFIG) {
 
         function changeUser(user) {
             angular.extend(currentUser, user);
@@ -49,24 +46,15 @@ ICEOapp.factory('MainFactory', ['$http', '$localStorage', function ($http, $loca
 
         return {
             profile: function(success, error){
-                $http.get(baseUrl + '/admin/auth').success(success).error(error)
+                $http.get(CONFIG.restDomain + '/admin/auth').success(success).error(error)
             },
             signin: function (data, success, error) {
-                $http.post(baseUrl + '/admin/auth', data).success(success).error(error)
+                $http.post(CONFIG.restDomain + '/admin/auth', data).success(success).error(error)
             },
             logout: function (success, error) {
-                $http.delete(baseUrl + '/admin/auth').success(success).error(error)
+                $http.delete(CONFIG.restDomain + '/admin/auth').success(success).error(error)
                 changeUser({});
             },
-            remind: function(data, success, error){
-                $http.post(baseUrl+"/users/password", data).success(success).error(error)
-            },
-            reset: function(data, success, error){
-                $http.put(baseUrl+"/users/password", data).success(success).error(error)
-            },
-            activate: function(data, success, error){
-                $http.post(baseUrl+"/users/activation", data).success(success).error(error)
-            }
         };
     }
     ]);

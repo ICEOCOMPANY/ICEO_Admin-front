@@ -7,51 +7,53 @@ var app = angular.module('ICEOapp', [
     'angularFileUpload',
     'oc.lazyLoad'
 ]);
+app.run(function ($rootScope, $localStorage) {
 
-app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', function ($urlRouterProvider, $httpProvider, $stateProvider, ASSETS) {
+    if ($localStorage.token === undefined || $localStorage.token === null) {
+        $rootScope.logged = false;
+    } else {
+        $rootScope.logged = true;
+    }
 
-        //Router managing paths (input controller)
-        /*$routeProvider.
-         when('/', {
-         templateUrl: 'partials/home.html'
-         }).
-         when('/signin', {
-         templateUrl: 'partials/signin.html'
-         }).
-         when('/me', {
-         templateUrl: 'partials/profile.html'
-         }).
-         when('/remind', {
-         templateUrl: 'partials/remind.html'
-         }).
-         when('/upload', {
-         templateUrl: 'partials/upload.html',
-         controller: 'FileCtrl'
-         }).
-         otherwise({
-         redirectTo: '/'
-         });*/
+    $rootScope
+            .$on('$stateChangeStart',
+                    function (event, toState, toParams, fromState, fromParams) {
+                        $('.page-loading-overlay').removeClass('loaded');
+                    });
+    $rootScope
+            .$on('$stateChangeSuccess',
+                    function (event, toState, toParams, fromState, fromParams) {
+                        $('.page-loading-overlay').addClass('loaded');
+                    });
+});
+app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'SERVICES', 'ASSETS', function ($urlRouterProvider, $httpProvider, $stateProvider, SERVICES, ASSETS) {
 
         $urlRouterProvider.otherwise("/admin/dashboard");
         $stateProvider.
                 state('login', {
                     url: '/login',
-                    controller: function ($location, $localStorage) {
-                        if ($localStorage.token !== undefined && $localStorage.token !== null) {
-                            $location.path("/admin/dashboard");
-                        }
-                    },
                     templateUrl: appHelper.templatePath('auth'),
                     resolve: {
+                        checkLogged: function ($rootScope, $location, $localStorage) {
+
+                            if ($localStorage.token === undefined || $localStorage.token === null) {
+                                $rootScope.logged = false;
+                            } else {
+                                $rootScope.logged = true;
+                                $location.path("/admin/dashboard");
+                            }
+                                
+                        },
                         location: function ($location) {
                             return $location;
                         },
-                        localStorage: function($localStorage){
-                            return $localStorage;
+                        rootScpe: function ($rootScope) {
+                            return $rootScope;
                         },
                         resources: function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
-                                ASSETS.forms.jQueryValidate
+                                ASSETS.forms.jQueryValidate,
+                                SERVICES.mainService
                             ]);
                         }
                     }
@@ -59,31 +61,30 @@ app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', f
                 state('admin', {
                     abstract: true,
                     url: '/admin',
-                    controller: function ($location, $localStorage) {
-                        if ($localStorage.token === undefined || $localStorage.token === null) {
-                            $location.path("/login");
-                        }
-                    },
                     templateUrl: appHelper.templatePath('admin/app-body'),
-                    reslove: {
+                    resolve: {
+                        checkLogged: function ($rootScope, $location, $localStorage) {
+                            if ($localStorage.token === undefined || $localStorage.token === null) {
+                                $rootScope.logged = false;
+                                $location.path("/login");
+                            } else {
+                                $rootScope.logged = true;
+                            }
+                        },
                         location: function ($location) {
                             return $location;
                         },
-                        localStorage: function($localStorage){
-                            return $localStorage;
+                        rootScpe: function ($rootScope) {
+                            return $rootScope;
                         }
                     }
                 }).state('admin.dashboard', {
-            url: '/dashboard',
-            templateUrl: appHelper.templatePath('admin/dashboard'),
-            resolve: {
-                resources: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        ASSETS.forms.jQueryValidate
-                    ]);
-                }
-            }
-        });
+                    url: '/dashboard',
+                    templateUrl: appHelper.templatePath('admin/dashboard')
+                }).state('admin.users', {
+                    url: '/users',
+                    templateUrl: appHelper.templatePath('admin/users')
+                });
         $httpProvider.interceptors.push(['$rootScope', '$q', '$location', '$localStorage', function ($rootScope, $q, $location, $localStorage) {
                 return {
                     'request': function (config) {
@@ -99,8 +100,8 @@ app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', f
                         if (response.status === 401 || response.status === 403) {
                             delete $localStorage.token;
                             $rootScope.token = null;
-                            $rootScope.error = "Twoja sesja wygasła! zaloguj się ponownie.";
-                            $location.path('/signin');
+                            $rootScope.errors.push({message: "Your session expired. Please log in again."});
+                            $location.path('/auth/logout');
                         }
                         return $q.reject(response);
                     }
@@ -108,6 +109,12 @@ app.config(['$urlRouterProvider', '$httpProvider', '$stateProvider', 'ASSETS', f
             }]);
     }
 ]);
+app.constant("CONFIG", {
+    restDomain: "http://localhost/Cloud"
+});
+app.constant('SERVICES', {
+    mainService: appHelper.servicePath("MainService.js")
+});
 app.constant('ASSETS', {
     'core': {
         'bootstrap': appHelper.assetPath('js/bootstrap.min.js'), // Some plugins which do not support angular needs this
@@ -118,6 +125,9 @@ app.constant('ASSETS', {
         ],
         'moment': appHelper.assetPath('js/moment.min.js'),
         'googleMapsLoader': appHelper.assetPath('app/js/angular-google-maps/load-google-maps.js')
+    },
+    'scripts': {
+        'tweenMax': appHelper.assetPath('js/TweenMax.min.js')
     },
     'icons': {
         'meteocons': appHelper.assetPath('css/fonts/meteocons/css/meteocons.css'),

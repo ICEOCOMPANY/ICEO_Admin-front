@@ -1,4 +1,4 @@
-<div class="page-container" ng-controller="BaseCtrl">
+<div class="page-container" ng-controller="MenuCtrl">
     <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
 
     <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
@@ -60,13 +60,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="layout-variants.html">
+                    <a href="">
                         <i class="fa-user"></i>
                         <span class="title">Users</span>
                     </a>
                     <ul>
                         <li>
-                            <a href="layout-variants.html">
+                            <a ng-href="#/admin/users">
                                 <span class="title">Manage users</span>
                             </a>
                         </li>
@@ -117,7 +117,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="assets/images/user-4.png" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
                         <span>
-                            John Smith
+                            {{ admin.login }}
                             <i class="fa-angle-down"></i>
                         </span>
                     </a>
@@ -186,6 +186,7 @@
 <!-- Bottom Scripts -->
 <script src="assets/js/resizeable.js"></script>
 <script src="assets/js/TweenMax.min.js"></script>
+<script src="assets/js/xenon-toggles.js"></script>
 
 <!-- JavaScripts initializations and stuff -->
 <script src="assets/js/xenon-custom.js"></script>
